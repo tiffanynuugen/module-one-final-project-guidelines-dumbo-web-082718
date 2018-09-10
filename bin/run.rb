@@ -2,4 +2,5 @@ require_relative '../config/environment'
 
 
 
-puts "HELLO WORLD"
+puts "Welcome to the Drink App!"
+puts "What alcohol are you in the mood for?"

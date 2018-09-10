@@ -1,2 +1,4 @@
 class Customer < ActiveRecord::Base
-end 
+  has_many :drinks
+  has_many :mixologists, through: :drinks
+end
