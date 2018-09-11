@@ -13,20 +13,16 @@ class Drink < ActiveRecord::Base
     end
   end
 
-
-  # a hash of all the drinks with that alcohol
-  # we need to iterate over this hash with an array of hashes inside to find the
-  # ID number and take the customer to that page with the ID number
-  # hash of an array of a hash
-
   def self.choose_drink(drink_name)
     #set the array equal to some variable
     number = @@drinks["drinks"].find {|drink_hash| drink_hash["strDrink"] == drink_name}["idDrink"]
     selected_drink = RestClient.get("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=#{number}")
-    drink_description = JSON.parse(selected_drink).values
-    drink_description.select do |key, ingredient|
+    drink_description = JSON.parse(selected_drink)
+    results = drink_description["drinks"][0].select do |key, ingredient|
       key.include?("strIngredient") && ingredient != ""
+      #we would expect to see a new hash consisting of {strIngredient2 => lemon, etc.}
     end
+    results
   end
 
 end #class end
