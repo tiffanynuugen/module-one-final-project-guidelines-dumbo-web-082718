@@ -1,8 +1,7 @@
 class Drink < ActiveRecord::Base
-  belongs_to :mixologist
-  belongs_to :customer
+  has_many :drink_lists
+  has_many :customers, through: :drink_lists
   serialize :ingredients
-
 
   @@drinks = {}
   def self.get_list_of_drinks(alcohol)
@@ -18,11 +17,12 @@ class Drink < ActiveRecord::Base
     number = @@drinks["drinks"].find {|drink_hash| drink_hash["strDrink"] == drink_name}["idDrink"]
     selected_drink = RestClient.get("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=#{number}")
     drink_description = JSON.parse(selected_drink)
-    results = drink_description["drinks"][0].select do |key, ingredient|
-      key.include?("strIngredient") && ingredient != ""
-      #we would expect to see a new hash consisting of {strIngredient2 => lemon, etc.}
-    end
-    results
+    drink_description["drinks"][0].select do |key, ingredient|
+      key.include?("strIngredient") && (ingredient != "" && ingredient != nil)
+    end.values
   end
-
+# we're not creating instances of drinks, we're pulling from API
+# database = stuff saved in secret ActiveRecord database
+# drink_description has name and ingredients of the drink, need it to create instance of drink class
+# have to grab the name and the ingredients, then Drink.create(name: adsfadsfa, ingredients: [adfad, adfadf, adfsd])
 end #class end
