@@ -1,4 +1,3 @@
-
 class Drink < ActiveRecord::Base
   belongs_to :mixologist
   belongs_to :customer
@@ -24,6 +23,10 @@ class Drink < ActiveRecord::Base
     #set the array equal to some variable
     number = @@drinks["drinks"].find {|drink_hash| drink_hash["strDrink"] == drink_name}["idDrink"]
     selected_drink = RestClient.get("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=#{number}")
-    JSON.parse(selected_drink)
+    drink_description = JSON.parse(selected_drink).values
+    drink_description.select do |key, ingredient|
+      key.include?("strIngredient") && ingredient != ""
+    end
   end
-end
+
+end #class end
