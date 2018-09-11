@@ -4,28 +4,26 @@ class Drink < ActiveRecord::Base
   belongs_to :customer
   serialize :ingredients
 
+
   @@drinks = {}
   def self.get_list_of_drinks(alcohol)
     all_drinks = RestClient.get("https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=#{alcohol}")
     @@drinks = JSON.parse(all_drinks)
-    @@drinks["drinks"].map do |drink|
+    drink_list = @@drinks["drinks"].map do |drink|
       drink["strDrink"]
     end
   end
 
-  def self.all
-    @@drinks #a hash of all the drinks with that alcohol
-    #we need to iterate over this hash with an array of hashes inside to find the
-    #ID number and take the customer to that page with the ID number
-  end
-  #hash of an array of a hash
 
-  def self.choose_drink(alcohol)
-    @@drinks.collect do |key, value|
-      value.collect do |key2, value2|
-        value2.idDrink
-      end
-    end
-  end
+  # a hash of all the drinks with that alcohol
+  # we need to iterate over this hash with an array of hashes inside to find the
+  # ID number and take the customer to that page with the ID number
+  # hash of an array of a hash
 
+  def self.choose_drink(drink_name)
+    #set the array equal to some variable
+    number = @@drinks["drinks"].find {|drink_hash| drink_hash["strDrink"] == drink_name}["idDrink"]
+    selected_drink = RestClient.get("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=#{number}")
+    JSON.parse(selected_drink)
+  end
 end
