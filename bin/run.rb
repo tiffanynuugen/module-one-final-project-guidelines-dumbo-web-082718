@@ -25,6 +25,14 @@ if Drink.get_list_of_drinks(user_alcohol)
 else
 end
 
-# user_puts_name = gets.chomp
-# puts "The #{user_puts_name} has #{Drink.choose_drink(user_puts_name).join(", ")} in it."
-# puts ("Is this the drink you would like to order?").green
+customer_answer = prompt.select("Is this the drink you would like to order?".green, %w(Yes No))
+if customer_answer == "Yes"
+  puts "Please wait, your drink is being made."
+  sleep(3)
+  #return photo of drink
+  puts "Here is your drink."
+else
+  drink_choice = prompt.select("What drink would you like to know more about?".green, Drink.get_list_of_drinks(user_alcohol))
+  Drink.get_list_of_drinks(user_alcohol)
+    puts "The #{drink_choice} has #{Drink.choose_drink(drink_choice).join(", ")} in it."
+end
