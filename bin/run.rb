@@ -16,16 +16,15 @@ user_name = gets.chomp
 
 puts "What alcohol are you in the mood for?".green
 user_alcohol = gets.chomp
-puts Drink.get_list_of_drinks(user_alcohol)
+#puts Drink.get_list_of_drinks(user_alcohol)
 
-puts "What drink would you like to know more about?".green
-user_puts_name = gets.chomp
-puts "The #{user_puts_name} has #{Drink.choose_drink(user_puts_name).join(", ")} in it.".green
-puts "Is this the drink you would like to order?".green
-# yes/no and then return to method if no
-# if yes, give them that drink
-#store the drink somewhere
+prompt = TTY::Prompt.new
+drink_choice = prompt.select("What drink would you like to know more about?".green, Drink.get_list_of_drinks(user_alcohol))
+if Drink.get_list_of_drinks(user_alcohol)
+  puts "The #{drink_choice} has #{Drink.choose_drink(drink_choice).join(", ")} in it."
+else
+end
 
-#jackie = Customer.find(4)
-# = Customer.find_by(name: "Jackie")
-# jackie.drinks
+# user_puts_name = gets.chomp
+# puts "The #{user_puts_name} has #{Drink.choose_drink(user_puts_name).join(", ")} in it."
+# puts ("Is this the drink you would like to order?").green

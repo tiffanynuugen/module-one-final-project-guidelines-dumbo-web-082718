@@ -1,3 +1,4 @@
+
 class Drink < ActiveRecord::Base
   has_many :drink_lists
   has_many :customers, through: :drink_lists
@@ -14,7 +15,13 @@ class Drink < ActiveRecord::Base
 
   def self.choose_drink(drink_name)
     #set the array equal to some variable
-    number = @@drinks["drinks"].find {|drink_hash| drink_hash["strDrink"] == drink_name}["idDrink"]
+    single_drink = @@drinks["drinks"].find {
+        |drink_hash|
+        drink_hash["strDrink"] == drink_name
+      }
+      # single_drink = the hash that matches the name of the drink
+    number = single_drink["idDrink"]
+
     selected_drink = RestClient.get("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=#{number}")
     drink_description = JSON.parse(selected_drink)
     drink_description["drinks"][0].select do |key, ingredient|
