@@ -1,13 +1,14 @@
 require 'colorize'
 require_relative '../config/environment'
 require_relative '../lib/drink.rb'
+require 'pry'
 
 puts "Welcome to the Drink App!".green
 
 puts "What is your name?".green
 user_name = gets.chomp
   if Customer.all.find_by name: user_name
-    puts "Welcome back, #{user_name}.".green
+      puts "Welcome back, #{user_name}.".green
   else
     Customer.create(name: user_name)
     puts "Hello #{user_name}.".green
@@ -24,3 +25,7 @@ puts "Is this the drink you would like to order?".green
 # yes/no and then return to method if no
 # if yes, give them that drink
 #store the drink somewhere
+
+#jackie = Customer.find(4)
+# = Customer.find_by(name: "Jackie")
+# jackie.drinks
