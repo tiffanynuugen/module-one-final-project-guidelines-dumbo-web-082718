@@ -1,4 +1,4 @@
 class DrinkList < ActiveRecord::Base
-  belongs_to :drinks
-  belongs_to :customers
+  belongs_to :drink
+  belongs_to :customer
 end
