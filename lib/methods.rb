@@ -83,11 +83,10 @@ def choices_in_drink_list
     prompt = TTY::Prompt.new
     @delete_drink = prompt.select("What drink would you like to delete?".green, drink_list_names)
     @delete_need_drink_instance = Drink.all.find_by name: @delete_drink
-    DrinkList.destroy(DrinkList.where(customer_id: @customer.id, drink_id: @delete_need_drink_instance.id)[0].id)
-    Customer.drinks.destroy(@delete_drink)
+    # DrinkList.destroy(DrinkList.where(customer_id: @customer.id, drink_id: @delete_need_drink_instance.id)[0].id)
+    # Customer.drinks.destroy(@delete_drink)
+    @customer.drinks.delete(@delete_need_drink_instance)
     next_choices
-    # @customers_drink_name = Drink.find_or_create_by(name: @drink_choice)
-    #delete a drink, have to show drink list drinks as a list, choose one to delete
   when 2
     next_choices
   end
