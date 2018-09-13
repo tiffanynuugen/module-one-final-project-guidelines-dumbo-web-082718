@@ -55,6 +55,7 @@ when 2
  @customer.drinks.each do |drink_instance|
     puts drink_instance.name
   end
+  choices_in_drink_list
   # show drink list
 when 3
   choose_drink_name
@@ -63,5 +64,17 @@ when 3
 else
   puts "Thank you, see you again soon."
 end
+end
+
+def choices_in_drink_list
+  prompt = TTY::Prompt.new
+  choices2 = {'Delete a drink' => 1, 'Go back'=> 2}
+  round_three  = prompt.select("What would you like to do next?".green, choices2)
+  case round_three
+  when 1
+    #delete a drink
+  when 2
+    next_choices
+  end
 end
 end
