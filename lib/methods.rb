@@ -9,7 +9,7 @@ end
 def choose_drink_name
 prompt = TTY::Prompt.new
 @drink_choice = prompt.select("What drink would you like to know more about?".green, Drink.get_list_of_drinks(@user_alcohol))
-@customers_drink_name = Drink.create(name: @drink_choice)
+@customers_drink_name = Drink.find_or_create_by(name: @drink_choice)
 if Drink.get_list_of_drinks(@user_alcohol)
   puts "The #{@drink_choice} has #{Drink.choose_drink(@drink_choice).join(", ")} in it."
 else
@@ -33,27 +33,30 @@ end
 
 
 def drink_is_made
- user_drink_list = DrinkList.create(customer: @customer, drink: @customers_drink_name)
+ user_drink_list = DrinkList.find_or_create_by(customer: @customer, drink: @customers_drink_name)
 puts "Please wait, your drink is being made."
 sleep(2)
 puts "Here is your drink."
 sleep(2)
 end
-binding.pry
 
 def next_choices
   prompt = TTY::Prompt.new
 choices = {'Choose another alcohol' => 1, 'See my drink list'=> 2, 'Go back' => 3, 'Exit' => 4}
-
 round_two = prompt.select("What would you like to do next?".green, choices)
-if round_two == 1
+case round_two
+when 1
   choose_alcohol
   choose_drink_name
   drink_order_question
+  drink_is_made
   next_choices
-elsif round_two == 2
+when 2
+ @customer.drinks.each do |drink_instance|
+    puts drink_instance.name
+  end
   # show drink list
-elsif round_two == 3
+when 3
   choose_drink_name
   drink_order_question
   next_choices
