@@ -31,9 +31,9 @@ end
 def drink_is_made
  user_drink_list = DrinkList.find_or_create_by(customer: @customer, drink: @customers_drink_name)
 puts "Please wait, your drink is being made."
-sleep(2)
+sleep(1)
 puts "Here is your drink."
-sleep(2)
+sleep(1)
 end
 
 def list_of_drinks
@@ -62,6 +62,7 @@ when 1
   next_choices
 when 2
   list_of_drinks
+  sleep(1)
   choices_in_drink_list
   # show drink list
 when 3
@@ -81,6 +82,10 @@ def choices_in_drink_list
   when 1
     prompt = TTY::Prompt.new
     @delete_drink = prompt.select("What drink would you like to delete?".green, drink_list_names)
+    @delete_need_drink_instance = Drink.all.find_by name: @delete_drink
+    DrinkList.destroy(DrinkList.where(customer_id: @customer.id, drink_id: @delete_need_drink_instance.id)[0].id)
+    Customer.drinks.destroy(@delete_drink)
+    next_choices
     # @customers_drink_name = Drink.find_or_create_by(name: @drink_choice)
     #delete a drink, have to show drink list drinks as a list, choose one to delete
   when 2
