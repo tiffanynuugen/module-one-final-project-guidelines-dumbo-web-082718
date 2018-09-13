@@ -10,12 +10,12 @@ puts "Welcome to the Drink App!".green
 
 puts "What is your name?".green
 @user_name = gets.chomp
-@customer = Customer.find_or_create_by(name: @user_name)
   if Customer.all.find_by name: @user_name
       puts "Welcome back, #{@user_name}.".green
+      @customer = Customer.all.find_by name: @user_name
   else
-    @customer = Customer.create(name: @user_name)
     puts "Hello #{@user_name}.".green
+    @customer = Customer.find_or_create_by(name: @user_name)
     @customer.save
   end
 

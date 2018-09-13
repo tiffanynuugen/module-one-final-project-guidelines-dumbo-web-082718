@@ -23,10 +23,6 @@ until customer_answer == "Yes"
   if customer_answer == "Yes"
   else
     choose_drink_name
-    # @drink_choice = prompt.select("What drink would you like to know more about?".green, Drink.get_list_of_drinks(@user_alcohol))
-    # Drink.get_list_of_drinks(@user_alcohol)
-    #   puts "The #{@drink_choice} has #{Drink.choose_drink(@drink_choice).join(", ")} in it."
-      # binding.pry
     customer_answer = prompt.select("Is this the drink you would like to order?".green, %w(Yes No))
   end
 end
@@ -38,6 +34,19 @@ puts "Please wait, your drink is being made."
 sleep(2)
 puts "Here is your drink."
 sleep(2)
+end
+
+def list_of_drinks
+  @list_of_drinks_to_delete = @customer.drinks.each do |drink_instance|
+     puts drink_instance.name
+   end
+  @list_of_drinks_to_delete
+end
+
+def drink_list_names
+  list_of_drinks.map do |drink_instance|
+    drink_instance.name
+  end
 end
 
 def next_choices
@@ -52,9 +61,7 @@ when 1
   drink_is_made
   next_choices
 when 2
- @customer.drinks.each do |drink_instance|
-    puts drink_instance.name
-  end
+  list_of_drinks
   choices_in_drink_list
   # show drink list
 when 3
@@ -72,7 +79,10 @@ def choices_in_drink_list
   round_three  = prompt.select("What would you like to do next?".green, choices2)
   case round_three
   when 1
-    #delete a drink
+    prompt = TTY::Prompt.new
+    @delete_drink = prompt.select("What drink would you like to delete?".green, drink_list_names)
+    # @customers_drink_name = Drink.find_or_create_by(name: @drink_choice)
+    #delete a drink, have to show drink list drinks as a list, choose one to delete
   when 2
     next_choices
   end
