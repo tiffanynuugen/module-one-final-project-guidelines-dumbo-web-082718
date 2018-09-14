@@ -1,4 +1,24 @@
-require 'pry'
+
+# def start_music
+#   pid = fork{ exec 'afplay', "/Users/jaekyungha/Documents/Flatiron/module-one-final-project-guidelines-dumbo-web-082718/lib/barmusic.mp3"}
+# end
+
+def start_program
+pid = fork{ exec 'afplay', "/Users/jaekyungha/Documents/Flatiron/module-one-final-project-guidelines-dumbo-web-082718/lib/barmusic.mp3"}
+puts "Welcome to the Drink App!".green
+
+puts "What is your name?".green
+@user_name = gets.chomp
+  if Customer.all.find_by name: @user_name
+      puts "Welcome back, #{@user_name}.".green
+      @customer = Customer.all.find_by name: @user_name
+  else
+    puts "Hello #{@user_name}.".green
+    @customer = Customer.find_or_create_by(name: @user_name)
+    @customer.save
+  end
+end
+
 def choose_alcohol
 puts "What alcohol are you in the mood for?".green
 @user_alcohol = gets.chomp

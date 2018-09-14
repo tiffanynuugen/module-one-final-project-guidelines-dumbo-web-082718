@@ -6,19 +6,23 @@ require_relative '../lib/drink.rb'
 require_relative '../lib/methods.rb'
 require 'pry'
 
-puts "Welcome to the Drink App!".green
+# def start_program
+# start_music
+# puts "Welcome to the Drink App!".green
+#
+# puts "What is your name?".green
+# @user_name = gets.chomp
+#   if Customer.all.find_by name: @user_name
+#       puts "Welcome back, #{@user_name}.".green
+#       @customer = Customer.all.find_by name: @user_name
+#   else
+#     puts "Hello #{@user_name}.".green
+#     @customer = Customer.find_or_create_by(name: @user_name)
+#     @customer.save
+#   end
+# end
 
-puts "What is your name?".green
-@user_name = gets.chomp
-  if Customer.all.find_by name: @user_name
-      puts "Welcome back, #{@user_name}.".green
-      @customer = Customer.all.find_by name: @user_name
-  else
-    puts "Hello #{@user_name}.".green
-    @customer = Customer.find_or_create_by(name: @user_name)
-    @customer.save
-  end
-
+start_program
 choose_alcohol
 choose_drink_name
 drink_order_question
